@@ -1,4 +1,4 @@
-package com.gaoyifeng.apigateway.session.handler;
+package com.gaoyifeng.apigateway.socket.handler;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;

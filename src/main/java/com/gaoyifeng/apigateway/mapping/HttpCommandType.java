@@ -1,4 +1,4 @@
-package com.gaoyifeng.apigateway.http;
+package com.gaoyifeng.apigateway.mapping;
 
 /**
  * @author gaoyifeng

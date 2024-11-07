@@ -1,6 +1,6 @@
 package com.gaoyifeng.apigateway.generic.factory;
 
-import com.gaoyifeng.apigateway.generic.Configuration;
+import com.gaoyifeng.apigateway.session.Configuration;
 import io.netty.channel.Channel;
 
 import java.util.concurrent.ExecutionException;

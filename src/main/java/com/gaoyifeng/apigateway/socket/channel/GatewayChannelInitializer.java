@@ -1,7 +1,7 @@
-package com.gaoyifeng.apigateway.session.channel;
+package com.gaoyifeng.apigateway.socket.channel;
 
-import com.gaoyifeng.apigateway.generic.Configuration;
-import com.gaoyifeng.apigateway.session.handler.SessionServerHandler;
+import com.gaoyifeng.apigateway.session.Configuration;
+import com.gaoyifeng.apigateway.socket.handler.GatewayServerHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -16,10 +16,10 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
  * @Date 2024/11/3 19:22
  * @Created by gaoyifeng
  */
-public class SessionChannelInitializer extends ChannelInitializer<SocketChannel> {
+public class GatewayChannelInitializer extends ChannelInitializer<SocketChannel> {
     private final Configuration configuration;
 
-    public SessionChannelInitializer(Configuration configuration) {
+    public GatewayChannelInitializer(Configuration configuration) {
         this.configuration = configuration;
     }
 
@@ -29,7 +29,7 @@ public class SessionChannelInitializer extends ChannelInitializer<SocketChannel>
         line.addLast(new HttpRequestDecoder());
         line.addLast(new HttpResponseEncoder());
         line.addLast(new HttpObjectAggregator(1024 * 1024));
-        line.addLast(new SessionServerHandler(configuration));
+        line.addLast(new GatewayServerHandler(configuration));
     }
 
 }

@@ -1,7 +1,7 @@
-package com.gaoyifeng.apigateway.session;
+package com.gaoyifeng.apigateway.socket;
 
-import com.gaoyifeng.apigateway.generic.Configuration;
-import com.gaoyifeng.apigateway.session.channel.SessionChannelInitializer;
+import com.gaoyifeng.apigateway.session.Configuration;
+import com.gaoyifeng.apigateway.socket.channel.GatewayChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -23,10 +23,10 @@ import java.util.concurrent.Callable;
  * @Date 2024/11/3 18:58
  * @Created by gaoyifeng
  */
-public class SessionServer implements Callable<Channel> {
+public class GatewaySocketServer implements Callable<Channel> {
 
 
-    private final Logger logger = LoggerFactory.getLogger(SessionServer.class);
+    private final Logger logger = LoggerFactory.getLogger(GatewaySocketServer.class);
 
     private Configuration configuration;
 
@@ -37,7 +37,7 @@ public class SessionServer implements Callable<Channel> {
 
     private Channel channel;
 
-    public SessionServer(Configuration configuration) {
+    public GatewaySocketServer(Configuration configuration) {
         this.configuration = configuration;
     }
 
@@ -54,7 +54,7 @@ public class SessionServer implements Callable<Channel> {
                     // 设置socket参数 最大连接数 超过则返回错误
                     .option(ChannelOption.SO_BACKLOG, 128)
                     // 设置子处理器
-                    .childHandler(new SessionChannelInitializer(configuration));
+                    .childHandler(new GatewayChannelInitializer(configuration));
 
             // 绑定端口并异步启动服务器
             channelFuture = serverBootstrap.bind(new InetSocketAddress(8080)).syncUninterruptibly();

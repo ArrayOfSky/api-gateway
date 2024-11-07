@@ -1,6 +1,4 @@
-package com.gaoyifeng.apigateway.http.mapping;
-
-import com.gaoyifeng.apigateway.http.HttpCommandType;
+package com.gaoyifeng.apigateway.mapping;
 
 /**
  * @author gaoyifeng

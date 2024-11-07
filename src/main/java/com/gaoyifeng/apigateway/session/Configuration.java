@@ -1,7 +1,7 @@
-package com.gaoyifeng.apigateway.generic;
+package com.gaoyifeng.apigateway.session;
 
-import com.gaoyifeng.apigateway.generic.proxy.GenericReferenceRegistry;
-import com.gaoyifeng.apigateway.generic.proxy.IGenericReference;
+import com.gaoyifeng.apigateway.binding.MapperRegistry;
+import com.gaoyifeng.apigateway.binding.IGenericReference;
 
 /**
  * @author gaoyifeng
@@ -12,7 +12,7 @@ import com.gaoyifeng.apigateway.generic.proxy.IGenericReference;
  */
 public class Configuration {
 
-    private final GenericReferenceRegistry registry = new GenericReferenceRegistry(this);
+    private final MapperRegistry registry = new MapperRegistry(this);
 
     public void addGenericReference(String application, String interfaceName, String methodName) {
         registry.addGenericReference(application, interfaceName, methodName);

@@ -1,9 +1,9 @@
-package com.gaoyifeng.apigateway.session.handler;
+package com.gaoyifeng.apigateway.socket.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.gaoyifeng.apigateway.generic.Configuration;
-import com.gaoyifeng.apigateway.generic.proxy.IGenericReference;
+import com.gaoyifeng.apigateway.session.Configuration;
+import com.gaoyifeng.apigateway.binding.IGenericReference;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.*;
@@ -17,14 +17,14 @@ import org.slf4j.LoggerFactory;
  * @Date 2024/11/3 19:21
  * @Created by gaoyifeng
  */
-public class SessionServerHandler extends BaseHandler<FullHttpRequest>{
+public class GatewayServerHandler extends BaseHandler<FullHttpRequest>{
 
 
-    private final Logger logger = LoggerFactory.getLogger(SessionServerHandler.class);
+    private final Logger logger = LoggerFactory.getLogger(GatewayServerHandler.class);
 
     private final Configuration configuration;
 
-    public SessionServerHandler(Configuration configuration) {
+    public GatewayServerHandler(Configuration configuration) {
         this.configuration = configuration;
     }
     @Override

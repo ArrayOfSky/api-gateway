@@ -1,7 +1,7 @@
 package com.gaoyifeng.apigateway.generic.factory;
 
-import com.gaoyifeng.apigateway.generic.Configuration;
-import com.gaoyifeng.apigateway.session.SessionServer;
+import com.gaoyifeng.apigateway.session.Configuration;
+import com.gaoyifeng.apigateway.socket.GatewaySocketServer;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +30,7 @@ public class GenericReferenceSessionFactory implements IGenericReferenceSessionF
 
     @Override
     public Future<Channel> openSession() throws ExecutionException, InterruptedException {
-        SessionServer server = new SessionServer(configuration);
+        GatewaySocketServer server = new GatewaySocketServer(configuration);
 
         Future<Channel> future = Executors.newFixedThreadPool(2).submit(server);
         Channel channel = future.get();

@@ -1,4 +1,4 @@
-package com.gaoyifeng.apigateway.generic.proxy;
+package com.gaoyifeng.apigateway.binding;
 
 /**
  * @author gaoyifeng

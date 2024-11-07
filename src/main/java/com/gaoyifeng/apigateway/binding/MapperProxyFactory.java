@@ -1,4 +1,4 @@
-package com.gaoyifeng.apigateway.generic.proxy;
+package com.gaoyifeng.apigateway.binding;
 
 import com.gaoyifeng.apigateway.generic.rpc.IRpcSender;
 import net.sf.cglib.core.Signature;
@@ -13,7 +13,7 @@ import org.objectweb.asm.Type;
  * @Date 2024/11/3 22:06
  * @Created by gaoyifeng
  */
-public class GenericReferenceProxyFactory {
+public class MapperProxyFactory {
 
 
     /**
@@ -23,14 +23,14 @@ public class GenericReferenceProxyFactory {
     private final IRpcSender rpcSender;
 
 
-    public GenericReferenceProxyFactory(IRpcSender rpcSender) {
+    public MapperProxyFactory(IRpcSender rpcSender) {
         this.rpcSender = rpcSender;
     }
 
 
     public IGenericReference newInstance(String method) {
         // 泛化调用
-        GenericReferenceProxy genericReferenceProxy = new GenericReferenceProxy(rpcSender,method);
+        MapperProxy genericReferenceProxy = new MapperProxy(rpcSender,method);
         // 创建接口
         InterfaceMaker interfaceMaker = new InterfaceMaker();
         interfaceMaker.add(new Signature(method, Type.getType(String.class), new Type[]{Type.getType(String.class)}), null);

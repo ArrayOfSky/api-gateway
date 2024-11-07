@@ -1,4 +1,4 @@
-package com.gaoyifeng.apigateway.generic.proxy;
+package com.gaoyifeng.apigateway.binding;
 
 import java.lang.reflect.Method;
 
@@ -14,7 +14,7 @@ import net.sf.cglib.proxy.MethodProxy;
  * @Date 2024/11/3 22:00
  * @Created by gaoyifeng
  */
-public class GenericReferenceProxy implements MethodInterceptor{
+public class MapperProxy implements MethodInterceptor{
 
     /**
      * todo 泛化调用服务
@@ -27,7 +27,7 @@ public class GenericReferenceProxy implements MethodInterceptor{
      */
     private final String methodName;
 
-    public GenericReferenceProxy(IRpcSender rpcSender,String methodName) {
+    public MapperProxy(IRpcSender rpcSender, String methodName) {
         this.rpcSender = rpcSender;
         this.methodName = methodName;
     }
