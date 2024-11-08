@@ -31,6 +31,6 @@ public class DefaultGatewaySession implements GatewaySession{
 
     @Override
     public Configuration getConfiguration() {
-        return null;
+        return configuration;
     }
 }

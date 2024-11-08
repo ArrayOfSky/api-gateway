@@ -32,7 +32,9 @@ public class MapperRegistry {
         if (genericReferenceProxyFactory == null) {
             throw new RuntimeException("Type " + methodName + " is not known to the GenericReferenceRegistry.");
         }
-        return genericReferenceProxyFactory.newInstance(methodName);
+//        return genericReferenceProxyFactory.newInstance(methodName);
+        // todo 需要改善
+        return null;
     }
 
     /**
@@ -43,7 +45,7 @@ public class MapperRegistry {
         IRpcSenderBuilder rpcSenderBuilder = new DubboRpcSenderBuilder();
         IRpcSender rpcSender = rpcSenderBuilder.build(application, interfaceName);
         // 创建并保存泛化工厂
-        genericReferenceProxyFactoryCache.put(methodName, new MapperProxyFactory(rpcSender));
+//        genericReferenceProxyFactoryCache.put(methodName, new MapperProxyFactory(rpcSender));
     }
 
 }

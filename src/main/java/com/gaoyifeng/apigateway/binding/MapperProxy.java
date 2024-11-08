@@ -3,6 +3,7 @@ package com.gaoyifeng.apigateway.binding;
 import java.lang.reflect.Method;
 
 import com.gaoyifeng.apigateway.generic.rpc.IRpcSender;
+import com.gaoyifeng.apigateway.session.GatewaySession;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
@@ -16,35 +17,18 @@ import net.sf.cglib.proxy.MethodProxy;
  */
 public class MapperProxy implements MethodInterceptor{
 
-    /**
-     * todo 泛化调用服务
-     * RPC 泛化调用服务
-     */
-    private final IRpcSender rpcSender;
+    private GatewaySession gatewaySession;
+    private final String uri;
 
-    /**
-     * RPC 泛化调用方法
-     */
-    private final String methodName;
-
-    public MapperProxy(IRpcSender rpcSender, String methodName) {
-        this.rpcSender = rpcSender;
-        this.methodName = methodName;
+    public MapperProxy(GatewaySession gatewaySession, String uri) {
+        this.gatewaySession = gatewaySession;
+        this.uri = uri;
     }
 
-    /**
-     * 做一层代理控制，后续不止是可以使用 Dubbo 泛化调用，也可以是其他服务的泛化调用
-     * 泛化调用文档：https://dubbo.apache.org/zh/docsv2.7/user/examples/generic-reference/
-     */
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        Class<?>[] parameterTypes = method.getParameterTypes();
-        String[] parameters = new String[parameterTypes.length];
-        for (int i = 0; i < parameterTypes.length; i++) {
-            parameters[i] = parameterTypes[i].getName();
-        }
-        //todo 泛化调用
-        return rpcSender.invoke(methodName, parameters, args);
+        MapperMethod linkMethod = new MapperMethod(uri, method, gatewaySession.getConfiguration());
+        return linkMethod.execute(gatewaySession, args);
     }
 
 }

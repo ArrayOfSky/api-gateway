@@ -2,6 +2,10 @@ package com.gaoyifeng.apigateway.session;
 
 import com.gaoyifeng.apigateway.binding.MapperRegistry;
 import com.gaoyifeng.apigateway.binding.IGenericReference;
+import com.gaoyifeng.apigateway.mapping.HttpStatement;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author gaoyifeng
@@ -12,14 +16,24 @@ import com.gaoyifeng.apigateway.binding.IGenericReference;
  */
 public class Configuration {
 
-    private final MapperRegistry registry = new MapperRegistry(this);
+    // Mapper注册机
+    private final MapperRegistry mapperRegistry = new MapperRegistry(this);
 
-    public void addGenericReference(String application, String interfaceName, String methodName) {
-        registry.addGenericReference(application, interfaceName, methodName);
+    // url-httpstatement请求映射
+    private final Map<String, HttpStatement> httpStatements = new HashMap<>();
+
+
+    public void addHttpStatement(HttpStatement httpStatement) {
+        httpStatements.put(httpStatement.getUri(), httpStatement);
     }
 
+    public HttpStatement getHttpStatement(String uri) {
+        return httpStatements.get(uri);
+    }
+
+
     public IGenericReference getGenericReference(String methodName) {
-        return registry.getGenericReference(methodName);
+        return mapperRegistry.getGenericReference(methodName);
     }
 
 }
