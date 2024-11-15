@@ -8,6 +8,9 @@ import com.gaoyifeng.apigateway.rpc.IRpcSender;
 import com.gaoyifeng.apigateway.rpc.IRpcSenderBuilder;
 import com.gaoyifeng.apigateway.session.Configuration;
 import com.gaoyifeng.apigateway.session.GatewaySession;
+import com.gaoyifeng.apigateway.type.SimpleTypeRegistry;
+
+import java.util.Map;
 
 /**
  * @author gaoyifeng
@@ -29,9 +32,20 @@ public class DefaultGatewaySession implements GatewaySession{
     }
 
     @Override
-    public Object get(String methodName, Object parameter) {
+    public Object get(String methodName,Map<String, Object> params) {
         Connection connection = dataSource.getConnection();
-        return connection.execute(methodName, new String[]{"java.lang.String"}, new String[]{"name"}, new Object[]{parameter});
+        HttpStatement httpStatement = configuration.getHttpStatement(uri);
+        String parameterType = httpStatement.getParameterType();
+
+        return connection.execute(methodName,
+                new String[]{parameterType},
+                new String[]{"ignore"},
+                SimpleTypeRegistry.isSimpleType(parameterType) ? params.values().toArray() : new Object[]{params});
+    }
+
+    @Override
+    public Object post(String methodName, Map<String, Object> params) {
+        return get(methodName, params);
     }
 
     @Override
@@ -43,4 +57,5 @@ public class DefaultGatewaySession implements GatewaySession{
     public Configuration getConfiguration() {
         return configuration;
     }
+
 }

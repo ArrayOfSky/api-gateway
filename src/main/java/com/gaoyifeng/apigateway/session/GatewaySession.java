@@ -2,6 +2,8 @@ package com.gaoyifeng.apigateway.session;
 
 import com.gaoyifeng.apigateway.binding.IGenericReference;
 
+import java.util.Map;
+
 /**
  * @author gaoyifeng
  * @Classname GatewaySession
@@ -11,7 +13,9 @@ import com.gaoyifeng.apigateway.binding.IGenericReference;
  */
 public interface GatewaySession {
 
-    Object get(String methodName, Object parameter);
+    Object get(String methodName, Map<String, Object> params);
+
+    Object post(String methodName, Map<String, Object> params);
 
     IGenericReference getMapper(String uri);
 

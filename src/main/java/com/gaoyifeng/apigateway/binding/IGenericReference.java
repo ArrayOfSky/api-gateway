@@ -1,5 +1,7 @@
 package com.gaoyifeng.apigateway.binding;
 
+import java.util.Map;
+
 /**
  * @author gaoyifeng
  * @Classname IGenericReference
@@ -9,6 +11,6 @@ package com.gaoyifeng.apigateway.binding;
  */
 public interface IGenericReference {
 
-    String invoke(String args);
+    String invoke(Map<String, Object> params);
 
 }

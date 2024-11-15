@@ -1,6 +1,7 @@
 package com.gaoyifeng.apigateway.binding;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import com.gaoyifeng.apigateway.session.GatewaySession;
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -27,7 +28,7 @@ public class MapperProxy implements MethodInterceptor{
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
         MapperMethod linkMethod = new MapperMethod(uri, method, gatewaySession.getConfiguration());
-        return linkMethod.execute(gatewaySession, args);
+        return linkMethod.execute(gatewaySession, (Map<String, Object>) args[0]);
     }
 
 }
