@@ -1,9 +1,8 @@
 package com.gaoyifeng.apigateway.binding;
 
+import com.gaoyifeng.apigateway.mapping.HttpStatement;
 import com.gaoyifeng.apigateway.session.Configuration;
-import com.gaoyifeng.apigateway.generic.rpc.IRpcSender;
-import com.gaoyifeng.apigateway.generic.rpc.IRpcSenderBuilder;
-import com.gaoyifeng.apigateway.generic.rpc.dubbo.DubboRpcSenderBuilder;
+import com.gaoyifeng.apigateway.session.GatewaySession;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,27 +24,33 @@ public class MapperRegistry {
     }
 
     // 泛化调用静态代理工厂
-    private final Map<String, MapperProxyFactory> genericReferenceProxyFactoryCache = new HashMap<>();
+    private final Map<String, MapperProxyFactory> cacheProxyMap = new HashMap<>();
 
-    public IGenericReference getGenericReference(String methodName) {
-        MapperProxyFactory genericReferenceProxyFactory = genericReferenceProxyFactoryCache.get(methodName);
-        if (genericReferenceProxyFactory == null) {
-            throw new RuntimeException("Type " + methodName + " is not known to the GenericReferenceRegistry.");
+    public IGenericReference getMapper(String uri, GatewaySession gatewaySession) {
+        final MapperProxyFactory mapperProxyFactory = cacheProxyMap.get(uri);
+        if (mapperProxyFactory == null) {
+            throw new RuntimeException("Uri " + uri + " is not known to the MapperRegistry.");
         }
-//        return genericReferenceProxyFactory.newInstance(methodName);
-        // todo 需要改善
-        return null;
+        try {
+            return mapperProxyFactory.newInstance(gatewaySession);
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting mapper instance. Cause: " + e, e);
+        }
     }
 
-    /**
-     * 注册泛化调用服务接口方法
-     */
-    public void addGenericReference(String application, String interfaceName, String methodName) {
-        //todo 注册泛化服务
-        IRpcSenderBuilder rpcSenderBuilder = new DubboRpcSenderBuilder();
-        IRpcSender rpcSender = rpcSenderBuilder.build(application, interfaceName);
-        // 创建并保存泛化工厂
-//        genericReferenceProxyFactoryCache.put(methodName, new MapperProxyFactory(rpcSender));
+    public void addMapper(HttpStatement httpStatement) {
+        String uri = httpStatement.getUri();
+        // 如果重复注册则报错
+        if (hasMapper(uri)) {
+            throw new RuntimeException("Uri " + uri + " is already known to the MapperRegistry.");
+        }
+        cacheProxyMap.put(uri, new MapperProxyFactory(uri));
+        // 保存接口映射信息
+        configuration.addHttpStatement(httpStatement);
+    }
+
+    public <T> boolean hasMapper(String uri) {
+        return cacheProxyMap.containsKey(uri);
     }
 
 }

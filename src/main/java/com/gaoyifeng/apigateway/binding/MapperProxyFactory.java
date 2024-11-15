@@ -1,6 +1,5 @@
 package com.gaoyifeng.apigateway.binding;
 
-import com.gaoyifeng.apigateway.generic.rpc.IRpcSender;
 import com.gaoyifeng.apigateway.mapping.HttpStatement;
 import com.gaoyifeng.apigateway.session.GatewaySession;
 import net.sf.cglib.core.Signature;

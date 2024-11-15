@@ -1,6 +1,9 @@
 package com.gaoyifeng.apigateway.session.defaults;
 
 import com.gaoyifeng.apigateway.binding.IGenericReference;
+import com.gaoyifeng.apigateway.mapping.HttpStatement;
+import com.gaoyifeng.apigateway.rpc.IRpcSender;
+import com.gaoyifeng.apigateway.rpc.IRpcSenderBuilder;
 import com.gaoyifeng.apigateway.session.Configuration;
 import com.gaoyifeng.apigateway.session.GatewaySession;
 
@@ -21,7 +24,11 @@ public class DefaultGatewaySession implements GatewaySession{
 
     @Override
     public Object get(String uri, Object parameter) {
-        return null;
+        HttpStatement httpStatement = configuration.getHttpStatement(uri);
+        IRpcSenderBuilder rpcSenderBuilder = configuration.getRpcSenderBuilder();
+        IRpcSender sender = rpcSenderBuilder.build(httpStatement.getApplication(), httpStatement.getInterfaceName());
+        Object result = sender.invoke(httpStatement.getMethodName(), new String[]{"java.lang.String"}, new Object[]{"小傅哥"});
+        return result;
     }
 
     @Override

@@ -1,6 +1,6 @@
-package com.gaoyifeng.apigateway.generic.rpc.dubbo;
+package com.gaoyifeng.apigateway.rpc.dubbo;
 
-import com.gaoyifeng.apigateway.generic.rpc.IRpcSender;
+import com.gaoyifeng.apigateway.rpc.IRpcSender;
 import org.apache.dubbo.rpc.service.GenericService;
 
 /**

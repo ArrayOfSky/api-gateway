@@ -2,7 +2,6 @@ package com.gaoyifeng.apigateway.binding;
 
 import java.lang.reflect.Method;
 
-import com.gaoyifeng.apigateway.generic.rpc.IRpcSender;
 import com.gaoyifeng.apigateway.session.GatewaySession;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;

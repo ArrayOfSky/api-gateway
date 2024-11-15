@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.gaoyifeng.apigateway.session.Configuration;
 import com.gaoyifeng.apigateway.binding.IGenericReference;
+import com.gaoyifeng.apigateway.session.GatewaySession;
+import com.gaoyifeng.apigateway.session.defaults.DefaultGatewaySessionFactory;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.*;
@@ -22,14 +24,18 @@ public class GatewayServerHandler extends BaseHandler<FullHttpRequest>{
 
     private final Logger logger = LoggerFactory.getLogger(GatewayServerHandler.class);
 
-    private final Configuration configuration;
+    private final DefaultGatewaySessionFactory gatewaySessionFactory;
 
-    public GatewayServerHandler(Configuration configuration) {
-        this.configuration = configuration;
+    public GatewayServerHandler(DefaultGatewaySessionFactory gatewaySessionFactory) {
+        this.gatewaySessionFactory = gatewaySessionFactory;
     }
     @Override
     protected void session(ChannelHandlerContext ctx, final Channel channel, FullHttpRequest request) {
         logger.info("网关接收请求 uri：{} method：{}", request.uri(), request.method());
+
+        //todo 暂未添加解析HttpStatement的逻辑
+
+        String uri = request.uri();
 
         // 返回信息控制：简单处理
         String methodName = request.uri().substring(1);
@@ -42,7 +48,8 @@ public class GatewayServerHandler extends BaseHandler<FullHttpRequest>{
 
         //todo 服务泛化调用
         // 服务泛化调用
-        IGenericReference reference = configuration.getGenericReference("sayHi");
+        GatewaySession gatewaySession = gatewaySessionFactory.openSession();
+        IGenericReference reference = gatewaySession.getMapper(uri);
         String result = reference.invoke("test") + " " + System.currentTimeMillis();
 
         // 设置回写数据

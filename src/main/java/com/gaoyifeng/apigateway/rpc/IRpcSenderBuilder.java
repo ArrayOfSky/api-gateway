@@ -1,4 +1,4 @@
-package com.gaoyifeng.apigateway.generic.rpc;
+package com.gaoyifeng.apigateway.rpc;
 
 /**
  * @author gaoyifeng
@@ -10,6 +10,5 @@ package com.gaoyifeng.apigateway.generic.rpc;
 public interface IRpcSenderBuilder {
 
     IRpcSender build(String application,String interfaceName);
-
 
 }

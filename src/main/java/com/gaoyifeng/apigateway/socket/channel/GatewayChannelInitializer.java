@@ -1,6 +1,7 @@
 package com.gaoyifeng.apigateway.socket.channel;
 
 import com.gaoyifeng.apigateway.session.Configuration;
+import com.gaoyifeng.apigateway.session.defaults.DefaultGatewaySessionFactory;
 import com.gaoyifeng.apigateway.socket.handler.GatewayServerHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -17,10 +18,10 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
  * @Created by gaoyifeng
  */
 public class GatewayChannelInitializer extends ChannelInitializer<SocketChannel> {
-    private final Configuration configuration;
+    private final DefaultGatewaySessionFactory gatewaySessionFactory;
 
-    public GatewayChannelInitializer(Configuration configuration) {
-        this.configuration = configuration;
+    public GatewayChannelInitializer(DefaultGatewaySessionFactory gatewaySessionFactory) {
+        this.gatewaySessionFactory = gatewaySessionFactory;
     }
 
     @Override
@@ -29,7 +30,7 @@ public class GatewayChannelInitializer extends ChannelInitializer<SocketChannel>
         line.addLast(new HttpRequestDecoder());
         line.addLast(new HttpResponseEncoder());
         line.addLast(new HttpObjectAggregator(1024 * 1024));
-        line.addLast(new GatewayServerHandler(configuration));
+        line.addLast(new GatewayServerHandler(gatewaySessionFactory));
     }
 
 }

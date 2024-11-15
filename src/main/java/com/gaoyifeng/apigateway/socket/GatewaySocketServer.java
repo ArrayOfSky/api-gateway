@@ -1,6 +1,7 @@
 package com.gaoyifeng.apigateway.socket;
 
 import com.gaoyifeng.apigateway.session.Configuration;
+import com.gaoyifeng.apigateway.session.defaults.DefaultGatewaySessionFactory;
 import com.gaoyifeng.apigateway.socket.channel.GatewayChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -28,19 +29,15 @@ public class GatewaySocketServer implements Callable<Channel> {
 
     private final Logger logger = LoggerFactory.getLogger(GatewaySocketServer.class);
 
-    private Configuration configuration;
+    private DefaultGatewaySessionFactory gatewaySessionFactory;
 
-    // 创建boss线程组
     private final EventLoopGroup boss = new NioEventLoopGroup(1);
-    // 创建worker线程组
     private final EventLoopGroup work = new NioEventLoopGroup();
-
     private Channel channel;
 
-    public GatewaySocketServer(Configuration configuration) {
-        this.configuration = configuration;
+    public GatewaySocketServer(DefaultGatewaySessionFactory gatewaySessionFactory) {
+        this.gatewaySessionFactory = gatewaySessionFactory;
     }
-
     @Override
     public Channel call() throws Exception {
         ChannelFuture channelFuture = null;
@@ -54,7 +51,7 @@ public class GatewaySocketServer implements Callable<Channel> {
                     // 设置socket参数 最大连接数 超过则返回错误
                     .option(ChannelOption.SO_BACKLOG, 128)
                     // 设置子处理器
-                    .childHandler(new GatewayChannelInitializer(configuration));
+                    .childHandler(new GatewayChannelInitializer(gatewaySessionFactory));
 
             // 绑定端口并异步启动服务器
             channelFuture = serverBootstrap.bind(new InetSocketAddress(8080)).syncUninterruptibly();

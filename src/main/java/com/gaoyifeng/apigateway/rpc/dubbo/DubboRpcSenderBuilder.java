@@ -1,7 +1,7 @@
-package com.gaoyifeng.apigateway.generic.rpc.dubbo;
+package com.gaoyifeng.apigateway.rpc.dubbo;
 
-import com.gaoyifeng.apigateway.generic.rpc.IRpcSender;
-import com.gaoyifeng.apigateway.generic.rpc.IRpcSenderBuilder;
+import com.gaoyifeng.apigateway.rpc.IRpcSender;
+import com.gaoyifeng.apigateway.rpc.IRpcSenderBuilder;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;

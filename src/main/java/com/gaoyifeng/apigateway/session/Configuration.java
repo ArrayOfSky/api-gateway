@@ -3,6 +3,8 @@ package com.gaoyifeng.apigateway.session;
 import com.gaoyifeng.apigateway.binding.MapperRegistry;
 import com.gaoyifeng.apigateway.binding.IGenericReference;
 import com.gaoyifeng.apigateway.mapping.HttpStatement;
+import com.gaoyifeng.apigateway.rpc.IRpcSenderBuilder;
+import com.gaoyifeng.apigateway.rpc.dubbo.DubboRpcSenderBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,12 +18,17 @@ import java.util.Map;
  */
 public class Configuration {
 
-    // Mapper注册机
     private final MapperRegistry mapperRegistry = new MapperRegistry(this);
 
-    // url-httpstatement请求映射
     private final Map<String, HttpStatement> httpStatements = new HashMap<>();
 
+    public void addMapper(HttpStatement httpStatement) {
+        mapperRegistry.addMapper(httpStatement);
+    }
+
+    public IGenericReference getMapper(String uri, GatewaySession gatewaySession) {
+        return mapperRegistry.getMapper(uri, gatewaySession);
+    }
 
     public void addHttpStatement(HttpStatement httpStatement) {
         httpStatements.put(httpStatement.getUri(), httpStatement);
@@ -31,9 +38,10 @@ public class Configuration {
         return httpStatements.get(uri);
     }
 
+    private IRpcSenderBuilder rpcSenderBuilder = new DubboRpcSenderBuilder();
 
-    public IGenericReference getGenericReference(String methodName) {
-        return mapperRegistry.getGenericReference(methodName);
+    public IRpcSenderBuilder getRpcSenderBuilder() {
+        return rpcSenderBuilder;
     }
 
 }

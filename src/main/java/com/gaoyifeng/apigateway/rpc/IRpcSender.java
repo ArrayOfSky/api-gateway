@@ -1,4 +1,4 @@
-package com.gaoyifeng.apigateway.generic.rpc;
+package com.gaoyifeng.apigateway.rpc;
 
 /**
  * @author gaoyifeng

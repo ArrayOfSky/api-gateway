@@ -1,6 +1,5 @@
 package com.gaoyifeng.apigateway.binding;
 
-import com.gaoyifeng.apigateway.generic.rpc.IRpcSender;
 import com.gaoyifeng.apigateway.mapping.HttpCommandType;
 import com.gaoyifeng.apigateway.session.Configuration;
 import com.gaoyifeng.apigateway.session.GatewaySession;
@@ -10,7 +9,7 @@ import java.lang.reflect.Method;
 /**
  * @author gaoyifeng
  * @Classname MapperMethod
- * @Description TODO
+ * @Description TODO 绑定调用方法
  * @Date 2024/11/7 21:00
  * @Created by gaoyifeng
  */
