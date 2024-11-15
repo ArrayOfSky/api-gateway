@@ -1,6 +1,6 @@
 package com.gaoyifeng.apigateway.executor;
 
-import com.gaoyifeng.apigateway.executor.result.GatewayResult;
+import com.gaoyifeng.apigateway.executor.result.SessionResult;
 import com.gaoyifeng.apigateway.mapping.HttpStatement;
 
 import java.util.Map;
@@ -14,6 +14,6 @@ import java.util.Map;
  */
 public interface Executor {
 
-    GatewayResult exec(HttpStatement httpStatement, Map<String, Object> params) throws Exception;
+    SessionResult exec(HttpStatement httpStatement, Map<String, Object> params) throws Exception;
 
 }

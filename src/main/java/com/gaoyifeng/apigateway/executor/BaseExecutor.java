@@ -2,7 +2,7 @@ package com.gaoyifeng.apigateway.executor;
 
 import com.alibaba.fastjson.JSON;
 import com.gaoyifeng.apigateway.datasource.Connection;
-import com.gaoyifeng.apigateway.executor.result.GatewayResult;
+import com.gaoyifeng.apigateway.executor.result.SessionResult;
 import com.gaoyifeng.apigateway.mapping.HttpStatement;
 import com.gaoyifeng.apigateway.session.Configuration;
 import com.gaoyifeng.apigateway.type.SimpleTypeRegistry;
@@ -31,7 +31,7 @@ public abstract class BaseExecutor implements Executor {
     }
 
     @Override
-    public GatewayResult exec(HttpStatement httpStatement, Map<String, Object> params) throws Exception {
+    public SessionResult exec(HttpStatement httpStatement, Map<String, Object> params) throws Exception {
         // 参数处理；后续的一些参数校验也可以在这里封装。
         String methodName = httpStatement.getMethodName();
         String parameterType = httpStatement.getParameterType();
@@ -41,9 +41,9 @@ public abstract class BaseExecutor implements Executor {
         // 抽象方法
         try {
             Object data = doExec(methodName, parameterTypes, args);
-            return GatewayResult.buildSuccess(data);
+            return SessionResult.buildSuccess(data);
         } catch (Exception e) {
-            return GatewayResult.buildError(e.getMessage());
+            return SessionResult.buildError(e.getMessage());
         }
     }
 

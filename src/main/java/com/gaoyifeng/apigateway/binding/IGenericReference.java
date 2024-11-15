@@ -1,5 +1,7 @@
 package com.gaoyifeng.apigateway.binding;
 
+import com.gaoyifeng.apigateway.executor.result.SessionResult;
+
 import java.util.Map;
 
 /**
@@ -11,6 +13,6 @@ import java.util.Map;
  */
 public interface IGenericReference {
 
-    Object invoke(Map<String, Object> params);
+    SessionResult invoke(Map<String, Object> params);
 
 }

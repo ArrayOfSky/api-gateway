@@ -25,13 +25,16 @@ public class HttpStatement {
     /** 接口类型；GET、POST、PUT、DELETE */
     private HttpCommandType httpCommandType;
 
-    public HttpStatement(String application, String interfaceName, String methodName, String parameterType, String uri, HttpCommandType httpCommandType) {
+    private boolean auth;
+
+    public HttpStatement(String application, String interfaceName, String methodName, String parameterType, String uri, HttpCommandType httpCommandType, boolean auth) {
         this.application = application;
         this.interfaceName = interfaceName;
         this.methodName = methodName;
         this.parameterType = parameterType;
         this.uri = uri;
         this.httpCommandType = httpCommandType;
+        this.auth = auth;
     }
 
     public String getApplication() {
@@ -57,5 +60,7 @@ public class HttpStatement {
     public String getParameterType() {
         return parameterType;
     }
-
+    public boolean isAuth() {
+        return auth;
+    }
 }
