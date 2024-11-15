@@ -2,6 +2,9 @@ package com.gaoyifeng.apigateway.session;
 
 import com.gaoyifeng.apigateway.binding.MapperRegistry;
 import com.gaoyifeng.apigateway.binding.IGenericReference;
+import com.gaoyifeng.apigateway.datasource.Connection;
+import com.gaoyifeng.apigateway.executor.Executor;
+import com.gaoyifeng.apigateway.executor.SimpleExecutor;
 import com.gaoyifeng.apigateway.mapping.HttpStatement;
 import com.gaoyifeng.apigateway.rpc.IRpcSenderBuilder;
 import com.gaoyifeng.apigateway.rpc.dubbo.DubboRpcSenderBuilder;
@@ -42,13 +45,6 @@ public class Configuration {
         return httpStatements.get(uri);
     }
 
-    private IRpcSenderBuilder rpcSenderBuilder = new DubboRpcSenderBuilder();
-
-    public IRpcSenderBuilder getRpcSenderBuilder() {
-        return rpcSenderBuilder;
-    }
-
-
     private final Map<String, ApplicationConfig> applicationConfigMap = new HashMap<>();
     private final Map<String, RegistryConfig> registryConfigMap = new HashMap<>();
     private final Map<String, ReferenceConfig<GenericService>> referenceConfigMap = new HashMap<>();
@@ -68,6 +64,9 @@ public class Configuration {
         return referenceConfigMap.get(interfaceName);
     }
 
+    public Executor newExecutor(Connection connection) {
+        return new SimpleExecutor(this, connection);
+    }
 
 
 }

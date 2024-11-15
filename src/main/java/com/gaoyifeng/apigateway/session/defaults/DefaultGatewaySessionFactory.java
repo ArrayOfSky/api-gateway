@@ -3,6 +3,7 @@ package com.gaoyifeng.apigateway.session.defaults;
 import com.gaoyifeng.apigateway.datasource.DataSource;
 import com.gaoyifeng.apigateway.datasource.DataSourceFactory;
 import com.gaoyifeng.apigateway.datasource.unpooled.UnpooledDataSourceFactory;
+import com.gaoyifeng.apigateway.executor.Executor;
 import com.gaoyifeng.apigateway.session.Configuration;
 import com.gaoyifeng.apigateway.session.GatewaySession;
 import com.gaoyifeng.apigateway.session.GatewaySessionFactory;
@@ -29,7 +30,11 @@ public class DefaultGatewaySessionFactory implements GatewaySessionFactory {
         DataSourceFactory dataSourceFactory = new UnpooledDataSourceFactory();
         dataSourceFactory.setProperties(configuration, uri);
         DataSource dataSource = dataSourceFactory.getDataSource();
-        return new DefaultGatewaySession(configuration, uri, dataSource);
+
+        // 创建执行器
+        Executor executor = configuration.newExecutor(dataSource.getConnection());
+        // 创建会话：DefaultGatewaySession
+        return new DefaultGatewaySession(configuration, uri, executor);
     }
 
 

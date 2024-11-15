@@ -3,6 +3,7 @@ package com.gaoyifeng.apigateway.session.defaults;
 import com.gaoyifeng.apigateway.binding.IGenericReference;
 import com.gaoyifeng.apigateway.datasource.Connection;
 import com.gaoyifeng.apigateway.datasource.DataSource;
+import com.gaoyifeng.apigateway.executor.Executor;
 import com.gaoyifeng.apigateway.mapping.HttpStatement;
 import com.gaoyifeng.apigateway.rpc.IRpcSender;
 import com.gaoyifeng.apigateway.rpc.IRpcSenderBuilder;
@@ -23,24 +24,22 @@ public class DefaultGatewaySession implements GatewaySession{
 
     private Configuration configuration;
     private String uri;
-    private DataSource dataSource;
+    private   Executor executor;
 
-    public DefaultGatewaySession(Configuration configuration, String uri, DataSource dataSource) {
+    public DefaultGatewaySession(Configuration configuration, String uri,  Executor executor) {
         this.configuration = configuration;
         this.uri = uri;
-        this.dataSource = dataSource;
+        this.executor = executor;
     }
 
     @Override
     public Object get(String methodName,Map<String, Object> params) {
-        Connection connection = dataSource.getConnection();
         HttpStatement httpStatement = configuration.getHttpStatement(uri);
-        String parameterType = httpStatement.getParameterType();
-
-        return connection.execute(methodName,
-                new String[]{parameterType},
-                new String[]{"ignore"},
-                SimpleTypeRegistry.isSimpleType(parameterType) ? params.values().toArray() : new Object[]{params});
+        try {
+            return executor.exec(httpStatement, params);
+        } catch (Exception e) {
+            throw new RuntimeException("Error exec get. Cause: " + e);
+        }
     }
 
     @Override

@@ -26,6 +26,7 @@ public class UnpooledDataSourceFactory implements DataSourceFactory {
         // 默认dubbo
         this.dataSource.setDataSourceType(DataSourceType.Dubbo);
         this.dataSource.setHttpStatement(configuration.getHttpStatement(uri));
+
     }
 
     @Override

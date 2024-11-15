@@ -7,6 +7,7 @@ import com.gaoyifeng.apigateway.binding.IGenericReference;
 import com.gaoyifeng.apigateway.session.GatewaySession;
 import com.gaoyifeng.apigateway.session.defaults.DefaultGatewaySessionFactory;
 import com.gaoyifeng.apigateway.socket.agreement.RequestParser;
+import com.gaoyifeng.apigateway.socket.agreement.ResponseParser;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.*;
@@ -37,32 +38,18 @@ public class GatewayServerHandler extends BaseHandler<FullHttpRequest>{
         logger.info("网关接收请求 uri：{} method：{}", request.uri(), request.method());
 
         //解析request
-        Map<String, Object> requestObj = new RequestParser(request).parse();
-
-        // 返回信息控制：简单处理
-        String uri = request.uri();
-        int idx = uri.indexOf("?");
-        uri = idx > 0 ? uri.substring(0, idx) : uri;
-        if (uri.equals("/favicon.ico")) return;
-
+        RequestParser requestParser = new RequestParser(request);
+        String uri = requestParser.getUri();
+        if (null == uri) return;
+        Map<String, Object> args = new RequestParser(request).parse();
 
         // 服务泛化调用
         GatewaySession gatewaySession = gatewaySessionFactory.openSession(uri);
         IGenericReference reference = gatewaySession.getMapper(uri);
-        String result = reference.invoke(requestObj) + " " + System.currentTimeMillis();
+        String result = reference.invoke(args) + " " + System.currentTimeMillis();
 
-
-        // response处理
-        DefaultFullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
-        response.content().writeBytes(JSON.toJSONBytes(result, SerializerFeature.PrettyFormat));
-        HttpHeaders heads = response.headers();
-        heads.add(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.APPLICATION_JSON + "; charset=UTF-8");
-        heads.add(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());
-        heads.add(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
-        heads.add(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-        heads.add(HttpHeaderNames.ACCESS_CONTROL_ALLOW_HEADERS, "*");
-        heads.add(HttpHeaderNames.ACCESS_CONTROL_ALLOW_METHODS, "GET, POST, PUT, DELETE");
-        heads.add(HttpHeaderNames.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
+        // 3. 封装返回结果
+        DefaultFullHttpResponse response = new ResponseParser().parse(result);
         channel.writeAndFlush(response);
     }
 
