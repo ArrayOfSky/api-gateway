@@ -10,6 +10,6 @@ package com.gaoyifeng.apigateway.session;
 public interface GatewaySessionFactory {
 
 
-    GatewaySession openSession();
+    GatewaySession openSession(String uri);
 
 }

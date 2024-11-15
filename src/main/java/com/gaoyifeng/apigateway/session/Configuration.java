@@ -5,6 +5,10 @@ import com.gaoyifeng.apigateway.binding.IGenericReference;
 import com.gaoyifeng.apigateway.mapping.HttpStatement;
 import com.gaoyifeng.apigateway.rpc.IRpcSenderBuilder;
 import com.gaoyifeng.apigateway.rpc.dubbo.DubboRpcSenderBuilder;
+import org.apache.dubbo.config.ApplicationConfig;
+import org.apache.dubbo.config.ReferenceConfig;
+import org.apache.dubbo.config.RegistryConfig;
+import org.apache.dubbo.rpc.service.GenericService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,5 +47,27 @@ public class Configuration {
     public IRpcSenderBuilder getRpcSenderBuilder() {
         return rpcSenderBuilder;
     }
+
+
+    private final Map<String, ApplicationConfig> applicationConfigMap = new HashMap<>();
+    private final Map<String, RegistryConfig> registryConfigMap = new HashMap<>();
+    private final Map<String, ReferenceConfig<GenericService>> referenceConfigMap = new HashMap<>();
+
+    public Configuration() {
+        // TODO 后期从配置中获取 初始化map
+    }
+    public ApplicationConfig getApplicationConfig(String applicationName) {
+        return applicationConfigMap.get(applicationName);
+    }
+
+    public RegistryConfig getRegistryConfig(String applicationName) {
+        return registryConfigMap.get(applicationName);
+    }
+
+    public ReferenceConfig<GenericService> getReferenceConfig(String interfaceName) {
+        return referenceConfigMap.get(interfaceName);
+    }
+
+
 
 }

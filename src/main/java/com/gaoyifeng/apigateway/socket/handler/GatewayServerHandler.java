@@ -48,7 +48,7 @@ public class GatewayServerHandler extends BaseHandler<FullHttpRequest>{
 
         //todo 服务泛化调用
         // 服务泛化调用
-        GatewaySession gatewaySession = gatewaySessionFactory.openSession();
+        GatewaySession gatewaySession = gatewaySessionFactory.openSession(uri);
         IGenericReference reference = gatewaySession.getMapper(uri);
         String result = reference.invoke("test") + " " + System.currentTimeMillis();
 
