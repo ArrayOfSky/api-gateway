@@ -2,6 +2,10 @@
 
 api-gateway 为本人基于netty自研的api网关，目前处于v1版本开发中。。
 
+api-gateway-core 主要实现:
+- 网络协议转换
+- 鉴权
+
 # api-gateway-v1
 
 ## 版本规划
