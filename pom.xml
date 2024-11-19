@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.gaoyifeng</groupId>
-    <artifactId>api-gateway</artifactId>
+    <artifactId>api-gateway-core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>api-gateway</name>
     <description>api-gateway for gaoyfieng</description>
